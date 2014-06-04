@@ -7,13 +7,17 @@
 //
 
 #import "DEVAppDelegate.h"
+#import "DEVCalculatorViewController.h"
 
 @implementation DEVAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    DEVCalculatorViewController *calcController = [[DEVCalculatorViewController alloc] init];
+    
+    self.window.rootViewController = calcController;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
