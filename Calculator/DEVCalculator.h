@@ -30,6 +30,8 @@ typedef enum DEVCalculatorOperation{
 @property (nonatomic) float result;
 @property (nonatomic, strong) id <DEVCalculatorDelegate> delegate;
 
+- (void)addDigit:(UIButton *)button;
+
 - (void)calculateWithOperation:(DEVCalculatorOperation)operation number:(float)number;
 
 @end

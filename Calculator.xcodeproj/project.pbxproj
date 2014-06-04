@@ -19,7 +19,6 @@
 		E0A4F812193E15C9005EE606 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A4F7FA193E15C9005EE606 /* UIKit.framework */; };
 		E0A4F81A193E15C9005EE606 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0A4F818193E15C9005EE606 /* InfoPlist.strings */; };
 		E0A4F81C193E15C9005EE606 /* CalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A4F81B193E15C9005EE606 /* CalculatorTests.m */; };
-		E0A4F86B193F6FD0005EE606 /* DEVCalculatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A4F86A193F6FD0005EE606 /* DEVCalculatorView.m */; };
 		E0A4F86E193F6FE0005EE606 /* DEVCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A4F86D193F6FE0005EE606 /* DEVCalculator.m */; };
 		E0A4F871193F6FF3005EE606 /* DEVCalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A4F870193F6FF3005EE606 /* DEVCalculatorViewController.m */; };
 /* End PBXBuildFile section */
@@ -51,8 +50,6 @@
 		E0A4F817193E15C9005EE606 /* CalculatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CalculatorTests-Info.plist"; sourceTree = "<group>"; };
 		E0A4F819193E15C9005EE606 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E0A4F81B193E15C9005EE606 /* CalculatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorTests.m; sourceTree = "<group>"; };
-		E0A4F869193F6FD0005EE606 /* DEVCalculatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEVCalculatorView.h; sourceTree = "<group>"; };
-		E0A4F86A193F6FD0005EE606 /* DEVCalculatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEVCalculatorView.m; sourceTree = "<group>"; };
 		E0A4F86C193F6FE0005EE606 /* DEVCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEVCalculator.h; sourceTree = "<group>"; };
 		E0A4F86D193F6FE0005EE606 /* DEVCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEVCalculator.m; sourceTree = "<group>"; };
 		E0A4F86F193F6FF3005EE606 /* DEVCalculatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEVCalculatorViewController.h; sourceTree = "<group>"; };
@@ -118,8 +115,6 @@
 			children = (
 				E0A4F805193E15C9005EE606 /* DEVAppDelegate.h */,
 				E0A4F806193E15C9005EE606 /* DEVAppDelegate.m */,
-				E0A4F869193F6FD0005EE606 /* DEVCalculatorView.h */,
-				E0A4F86A193F6FD0005EE606 /* DEVCalculatorView.m */,
 				E0A4F86C193F6FE0005EE606 /* DEVCalculator.h */,
 				E0A4F86D193F6FE0005EE606 /* DEVCalculator.m */,
 				E0A4F86F193F6FF3005EE606 /* DEVCalculatorViewController.h */,
@@ -257,7 +252,6 @@
 			files = (
 				E0A4F871193F6FF3005EE606 /* DEVCalculatorViewController.m in Sources */,
 				E0A4F807193E15C9005EE606 /* DEVAppDelegate.m in Sources */,
-				E0A4F86B193F6FD0005EE606 /* DEVCalculatorView.m in Sources */,
 				E0A4F803193E15C9005EE606 /* main.m in Sources */,
 				E0A4F86E193F6FE0005EE606 /* DEVCalculator.m in Sources */,
 			);

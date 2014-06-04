@@ -10,6 +10,11 @@
 
 @implementation DEVCalculator
 
+- (void)addDigit:(UIButton *)button
+{
+    //code to append whatever digit to the end of the 
+}
+
 - (void)calculateWithOperation:(DEVCalculatorOperation)operation number:(float)number
 {
     switch (operation) {
