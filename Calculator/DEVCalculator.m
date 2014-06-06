@@ -58,9 +58,9 @@
     }
     if (self.delegate) {
         NSLog(@"Delegate exists");
-        if([self.delegate respondsToSelector:@selector(calculator:didCalculateWithResult:)]){
+        if([self.delegate respondsToSelector:@selector(didCalculateWithResult:)]){
             NSLog(@"DELEGATE RESPONDED");
-            [self.delegate calculator:self didCalculateWithResult:self.inactiveNumber];
+            [self.delegate didCalculateWithResult:self.inactiveNumber];
         }
     }
 }

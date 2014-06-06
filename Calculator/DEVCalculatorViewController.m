@@ -11,7 +11,6 @@
 
 @interface DEVCalculatorViewController () <DEVCalculatorDelegate>
 
-//not sure if this needs to be a property in order to be used by other classes...just figured it should go here?
 @property (nonatomic) DEVCalculator *calculator;
 @property UILabel *numberDisplay;
 
