@@ -31,11 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)loadView
-{
+	
     //this is ideally how I would like to set everything up. It's clean and easy to read but I am unsure where the connection between
     //the DEVCalculator and the DEVCalculatorView is to be made
     
@@ -55,7 +51,7 @@
     self.numberDisplay.textAlignment = NSTextAlignmentRight;
     self.numberDisplay.textColor = [UIColor whiteColor];
     self.numberDisplay.font = [UIFont systemFontOfSize:75];
-    self.numberDisplay.text = [NSString stringWithFormat:@"%f", self.calculator.inactiveNumber];
+    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.inactiveNumber];
     [self.view addSubview:self.numberDisplay];
     
     //first (top) row of buttons
@@ -64,7 +60,7 @@
     sevenNumber.tag = 7;
     [sevenNumber setTitle:@"7"
                  forState:UIControlStateNormal];
-    [sevenNumber addTarget:self.calculator
+    [sevenNumber addTarget:self
                     action:@selector(addDigit:)
           forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sevenNumber];
@@ -74,6 +70,9 @@
     eightNumber.tag = 8;
     [eightNumber setTitle:@"8"
                  forState:UIControlStateNormal];
+    [eightNumber addTarget:self
+                    action:@selector(addDigit:)
+          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:eightNumber];
     
     UIButton *nineNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
@@ -81,16 +80,18 @@
     nineNumber.tag = 9;
     [nineNumber setTitle:@"9"
                 forState:UIControlStateNormal];
+    [nineNumber addTarget:self
+                   action:@selector(addDigit:)
+         forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nineNumber];
     
     UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
     plusButton.backgroundColor = [UIColor orangeColor];
     [plusButton setTitle:@"+"
                 forState:UIControlStateNormal];
-    [plusButton addTarget:self.calculator
-                   action:@selector(setOperation:)
+    [plusButton addTarget:self
+                   action:@selector(setOperand:)
          forControlEvents:UIControlEventTouchUpInside];
-    
     [self.view addSubview:plusButton];
     
     //next row of buttons
@@ -99,6 +100,9 @@
     fourNumber.tag = 4;
     [fourNumber setTitle:@"4"
                 forState:UIControlStateNormal];
+    [fourNumber addTarget:self
+                   action:@selector(addDigit:)
+         forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:fourNumber];
     
     UIButton *fiveNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
@@ -106,6 +110,9 @@
     fiveNumber.tag = 5;
     [fiveNumber setTitle:@"5"
                 forState:UIControlStateNormal];
+    [fiveNumber addTarget:self
+                   action:@selector(addDigit:)
+         forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:fiveNumber];
     
     UIButton *sixNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
@@ -113,14 +120,17 @@
     sixNumber.tag = 6;
     [sixNumber setTitle:@"6"
                forState:UIControlStateNormal];
+    [sixNumber addTarget:self
+                  action:@selector(addDigit:)
+        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sixNumber];
     
     UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
     minusButton.backgroundColor = [UIColor orangeColor];
     [minusButton setTitle:@"-"
                  forState:UIControlStateNormal];
-    [minusButton addTarget:self.calculator
-                    action:@selector(setOperation:)
+    [minusButton addTarget:self
+                    action:@selector(setOperand:)
           forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:minusButton];
     
@@ -130,6 +140,9 @@
     oneNumber.tag = 1;
     [oneNumber setTitle:@"1"
                forState:UIControlStateNormal];
+    [oneNumber addTarget:self
+                  action:@selector(addDigit:)
+        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:oneNumber];
     
     UIButton *twoNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
@@ -137,6 +150,9 @@
     twoNumber.tag = 2;
     [twoNumber setTitle:@"2"
                forState:UIControlStateNormal];
+    [twoNumber addTarget:self
+                  action:@selector(addDigit:)
+        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:twoNumber];
     
     UIButton *threeNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
@@ -144,14 +160,17 @@
     threeNumber.tag = 3;
     [threeNumber setTitle:@"3"
                  forState:UIControlStateNormal];
+    [threeNumber addTarget:self
+                    action:@selector(addDigit:)
+          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:threeNumber];
     
     UIButton *multiplyButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
     multiplyButton.backgroundColor = [UIColor orangeColor];
     [multiplyButton setTitle:@"x"
                     forState:UIControlStateNormal];
-    [multiplyButton addTarget:self.calculator
-                       action:@selector(setOperation:)
+    [multiplyButton addTarget:self
+                       action:@selector(setOperand:)
              forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:multiplyButton];
     
@@ -160,6 +179,9 @@
     zeroNumber.backgroundColor = [UIColor grayColor];
     [zeroNumber setTitle:@"0"
                 forState:UIControlStateNormal];
+    [zeroNumber addTarget:self
+                   action:@selector(addDigit:)
+         forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:zeroNumber];
     
     UIButton *equalsButton = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
@@ -175,21 +197,58 @@
     divisionButton.backgroundColor = [UIColor orangeColor];
     [divisionButton setTitle:@"÷"
                     forState:UIControlStateNormal];
-    [divisionButton addTarget:self.calculator
-                       action:@selector(setOperation:)
+    [divisionButton addTarget:self
+                       action:@selector(setOperand:)
              forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:divisionButton];
 }
 
-- (void)didCalculateWithResult:(float)result
+- (void)loadView
 {
-    NSLog(@"CALCULATED");
-    self.numberDisplay.text = [NSString stringWithFormat:@"%f", result];
+    
+}
+
+- (void)addDigit:(id)sender
+{
+    UIButton *button = (UIButton *) sender;
+    NSLog(@"Tag of button: %i", button.tag);
+    [self.calculator addDigit:button.tag];
+}
+
+- (void)setOperand:(id)sender
+{
+    UIButton *buttonPressed = (UIButton *)sender;
+    if([buttonPressed.titleLabel.text isEqualToString:@"+"]){
+        NSLog(@"Operation set to add");
+        [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationAdd];
+    }
+    else if([buttonPressed.titleLabel.text isEqualToString:@"-"]){
+                NSLog(@"Operation set to subtract");
+        [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationSubtract];
+    }
+    else if([buttonPressed.titleLabel.text isEqualToString:@"x"]){
+                NSLog(@"Operation set to multiply");
+        [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationMultiply];
+    }
+    if([buttonPressed.titleLabel.text isEqualToString:@"÷"]){
+                NSLog(@"Operation set to divide");
+        [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationDivide];
+    }
+}
+
+- (void)digitAdded
+{
+    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.activeNumber];
+}
+
+- (void)didCalculateWithResult
+{
+    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.inactiveNumber];
 }
 
 - (void)operandDidChange
 {
-    NSLog(@"Operand Changed");
+    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f",self.calculator.activeNumber];
 }
 
 - (void)didReceiveMemoryWarning

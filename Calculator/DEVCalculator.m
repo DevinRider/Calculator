@@ -14,26 +14,28 @@
 - (instancetype)init
 {
     self = [super init];
-    self.inactiveNumber = 0;
-    self.activeNumber = 0;
     return self;
 }
 
 - (void)addDigit:(int)digit
 {
-    //code to append whatever digit to the end of the active number
+    //currently this will only work for positive numbers
+    self.activeNumber = (self.activeNumber * 10) + digit;
+    if(self.delegate){
+        if([self.delegate respondsToSelector:@selector(digitAdded)]){
+            NSLog(@"Digit added: %i", digit);
+            [self.delegate digitAdded];
+        }
+    }
 }
 
 - (void)setOperation:(DEVCalculatorOperation)operation
 {
-    NSLog(@"Operand changed");
     self.currentOperand = operation;
     self.inactiveNumber = self.activeNumber;
     self.activeNumber = 0;
     if(self.delegate){
-        NSLog(@"Delegate exists");
-        if([self.delegate respondsToSelector:@selector(operandDidChange:)]){
-                        NSLog(@"DELEGATE RESPONDED");
+        if([self.delegate respondsToSelector:@selector(operandDidChange)]){
             [self.delegate operandDidChange];
         }
     }
@@ -41,7 +43,6 @@
 
 - (void)calculate
 {
-    NSLog(@"Calculate attempted");
     switch (self.currentOperand) {
         case DEVCalculatorOperationAdd:
             self.inactiveNumber += self.activeNumber;
@@ -57,10 +58,8 @@
             break;
     }
     if (self.delegate) {
-        NSLog(@"Delegate exists");
-        if([self.delegate respondsToSelector:@selector(didCalculateWithResult:)]){
-            NSLog(@"DELEGATE RESPONDED");
-            [self.delegate didCalculateWithResult:self.inactiveNumber];
+        if([self.delegate respondsToSelector:@selector(didCalculateWithResult)]){
+            [self.delegate didCalculateWithResult];
         }
     }
 }
