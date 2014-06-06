@@ -22,7 +22,7 @@ typedef enum DEVCalculatorOperation{
 
 @optional
 - (void)didCalculateWithResult:(float)result;
-- (void)calculator:(DEVCalculator *)calculator operandDidChange:(DEVCalculatorOperation *)operation;
+- (void)operandDidChange;
 
 @end
 

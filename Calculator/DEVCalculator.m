@@ -32,9 +32,9 @@
     self.activeNumber = 0;
     if(self.delegate){
         NSLog(@"Delegate exists");
-        if([self.delegate respondsToSelector:@selector(calculator:operandDidChange:)]){
+        if([self.delegate respondsToSelector:@selector(operandDidChange:)]){
                         NSLog(@"DELEGATE RESPONDED");
-            [self.delegate calculator:self operandDidChange:(DEVCalculatorOperation)operation];
+            [self.delegate operandDidChange];
         }
     }
 }

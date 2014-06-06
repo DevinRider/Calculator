@@ -183,12 +183,11 @@
 
 - (void)didCalculateWithResult:(float)result
 {
-    //DO SOMETHING
     NSLog(@"CALCULATED");
     self.numberDisplay.text = [NSString stringWithFormat:@"%f", result];
 }
 
-- (void)operandDidChange:(DEVCalculatorOperation *)operand
+- (void)operandDidChange
 {
     NSLog(@"Operand Changed");
 }
