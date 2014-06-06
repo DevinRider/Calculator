@@ -13,6 +13,7 @@
 
 //not sure if this needs to be a property in order to be used by other classes...just figured it should go here?
 @property (nonatomic) DEVCalculator *calculator;
+@property UILabel *numberDisplay;
 
 @end
 
@@ -23,7 +24,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.calculator = [[DEVCalculator alloc] init];
-        self.calculator.result = 0;
         self.calculator.delegate = self;
     }
     return self;
@@ -52,12 +52,12 @@
     float buttonWidth = frameWidth / 4.0;
     
     //the top row of the calc will be a UILabel that shows the current number. Will take up 1/5 of the screen
-    UILabel *numberDisplay = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frameWidth, buttonHeight)];
-    numberDisplay.textAlignment = NSTextAlignmentRight;
-    numberDisplay.textColor = [UIColor whiteColor];
-    numberDisplay.font = [UIFont systemFontOfSize:75];
-    numberDisplay.text = [NSString stringWithFormat:@"%f", self.calculator.result];
-    [self.view addSubview:numberDisplay];
+    self.numberDisplay = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frameWidth, buttonHeight)];
+    self.numberDisplay.textAlignment = NSTextAlignmentRight;
+    self.numberDisplay.textColor = [UIColor whiteColor];
+    self.numberDisplay.font = [UIFont systemFontOfSize:75];
+    self.numberDisplay.text = [NSString stringWithFormat:@"%f", self.calculator.inactiveNumber];
+    [self.view addSubview:self.numberDisplay];
     
     //first (top) row of buttons
     UIButton *sevenNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonHeight, buttonWidth, buttonHeight)];
@@ -88,6 +88,10 @@
     plusButton.backgroundColor = [UIColor orangeColor];
     [plusButton setTitle:@"+"
                 forState:UIControlStateNormal];
+    [plusButton addTarget:self.calculator
+                   action:@selector(setOperation:)
+         forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:plusButton];
     
     //next row of buttons
@@ -116,6 +120,9 @@
     minusButton.backgroundColor = [UIColor orangeColor];
     [minusButton setTitle:@"-"
                  forState:UIControlStateNormal];
+    [minusButton addTarget:self.calculator
+                    action:@selector(setOperation:)
+          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:minusButton];
     
     //next row of buttons
@@ -144,6 +151,9 @@
     multiplyButton.backgroundColor = [UIColor orangeColor];
     [multiplyButton setTitle:@"x"
                     forState:UIControlStateNormal];
+    [multiplyButton addTarget:self.calculator
+                       action:@selector(setOperation:)
+             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:multiplyButton];
     
     //last row of buttons
@@ -157,16 +167,32 @@
     equalsButton.backgroundColor = [UIColor orangeColor];
     [equalsButton setTitle:@"="
                   forState:UIControlStateNormal];
+    [equalsButton addTarget:self.calculator
+                     action:@selector(calculate)
+           forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:equalsButton];
     
     UIButton *divisionButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
     divisionButton.backgroundColor = [UIColor orangeColor];
     [divisionButton setTitle:@"÷"
                     forState:UIControlStateNormal];
+    [divisionButton addTarget:self.calculator
+                       action:@selector(setOperation:)
+             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:divisionButton];
 }
 
--(BOOL)didCalculateWithResult:self.calculator 
+- (void)didCalculateWithResult:(float)result
+{
+    //DO SOMETHING
+    NSLog(@"CALCULATED");
+    self.numberDisplay.text = [NSString stringWithFormat:@"%f", result];
+}
+
+- (void)operandDidChange:(DEVCalculatorOperation *)operand
+{
+    NSLog(@"Operand Changed");
+}
 
 - (void)didReceiveMemoryWarning
 {
