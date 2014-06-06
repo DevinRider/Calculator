@@ -19,21 +19,29 @@
     return self;
 }
 
-- (void)addDigit:(UIButton *)button
+- (void)addDigit:(int)digit
 {
     //code to append whatever digit to the end of the active number
 }
 
 - (void)setOperation:(DEVCalculatorOperation)operation
 {
+    NSLog(@"Operand changed");
     self.currentOperand = operation;
-    if([self.delegate respondsToSelector:@selector(calculator:operandDidChange:)]){
-        [self.delegate calculator:self operandDidChange:(DEVCalculatorOperation)operation];
+    self.inactiveNumber = self.activeNumber;
+    self.activeNumber = 0;
+    if(self.delegate){
+        NSLog(@"Delegate exists");
+        if([self.delegate respondsToSelector:@selector(calculator:operandDidChange:)]){
+                        NSLog(@"DELEGATE RESPONDED");
+            [self.delegate calculator:self operandDidChange:(DEVCalculatorOperation)operation];
+        }
     }
 }
 
 - (void)calculate
 {
+    NSLog(@"Calculate attempted");
     switch (self.currentOperand) {
         case DEVCalculatorOperationAdd:
             self.inactiveNumber += self.activeNumber;
@@ -49,7 +57,9 @@
             break;
     }
     if (self.delegate) {
+        NSLog(@"Delegate exists");
         if([self.delegate respondsToSelector:@selector(calculator:didCalculateWithResult:)]){
+            NSLog(@"DELEGATE RESPONDED");
             [self.delegate calculator:self didCalculateWithResult:self.inactiveNumber];
         }
     }

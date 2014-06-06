@@ -39,7 +39,7 @@ typedef enum DEVCalculatorOperation{
 
 @property (nonatomic, strong) id <DEVCalculatorDelegate> delegate;
 
-- (void)addDigit:(UIButton *)button;
+- (void)addDigit:(int)digit;
 
 - (void)setOperation:(DEVCalculatorOperation)operation;
 
