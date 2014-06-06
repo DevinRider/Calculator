@@ -40,7 +40,7 @@
     
     //two floats to store the height of each row(or individual button)/width of the frame...mainly just for ease of reading the code
     //buttonHeight is the height of the whole frame / 5 because there are 5 rows
-    float buttonHeight = frame.size.height / 5.0;
+    float buttonHeight = frame.size.height / 6.0;
     float frameWidth = frame.size.width;
     
     //decided to add a "rowWidth" variable since it will be used quite a bit. 4 buttons across means the frameWidth / 4. Again, easier reading
@@ -50,13 +50,31 @@
     self.numberDisplay = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frameWidth, buttonHeight)];
     self.numberDisplay.textAlignment = NSTextAlignmentRight;
     self.numberDisplay.textColor = [UIColor whiteColor];
-    self.numberDisplay.font = [UIFont systemFontOfSize:75];
+    self.numberDisplay.font = [UIFont systemFontOfSize:65];
     self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.inactiveNumber];
     [self.view addSubview:self.numberDisplay];
     
-    //first (top) row of buttons
-    UIButton *sevenNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonHeight, buttonWidth, buttonHeight)];
-    sevenNumber.backgroundColor = [UIColor grayColor];
+    
+    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonHeight, buttonWidth, buttonHeight)];
+    clearButton.backgroundColor = [UIColor darkGrayColor];
+    [clearButton setTitle:@"C"
+                 forState:UIControlStateNormal];
+    [self.view addSubview:clearButton];
+    
+    UIButton *changeSignButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
+    changeSignButton.backgroundColor = [UIColor darkGrayColor];
+    [changeSignButton setTitle:@"+/-"
+                 forState:UIControlStateNormal];
+    [self.view addSubview:changeSignButton];
+    
+    UIButton *percentageButton = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
+    percentageButton.backgroundColor = [UIColor darkGrayColor];
+    [percentageButton setTitle:@"%"
+                      forState:UIControlStateNormal];
+    [self.view addSubview:percentageButton];
+    
+    UIButton *sevenNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 2 * buttonHeight, buttonWidth, buttonHeight)];
+    sevenNumber.backgroundColor = [UIColor lightGrayColor];
     sevenNumber.tag = 7;
     [sevenNumber setTitle:@"7"
                  forState:UIControlStateNormal];
@@ -65,8 +83,8 @@
           forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sevenNumber];
     
-    UIButton *eightNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
-    eightNumber.backgroundColor = [UIColor grayColor];
+    UIButton *eightNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
+    eightNumber.backgroundColor = [UIColor lightGrayColor];
     eightNumber.tag = 8;
     [eightNumber setTitle:@"8"
                  forState:UIControlStateNormal];
@@ -75,8 +93,8 @@
           forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:eightNumber];
     
-    UIButton *nineNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
-    nineNumber.backgroundColor = [UIColor grayColor];
+    UIButton *nineNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
+    nineNumber.backgroundColor = [UIColor lightGrayColor];
     nineNumber.tag = 9;
     [nineNumber setTitle:@"9"
                 forState:UIControlStateNormal];
@@ -85,7 +103,7 @@
          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nineNumber];
     
-    UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
+    UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth,  buttonHeight, buttonWidth, buttonHeight)];
     plusButton.backgroundColor = [UIColor orangeColor];
     [plusButton setTitle:@"+"
                 forState:UIControlStateNormal];
@@ -95,8 +113,8 @@
     [self.view addSubview:plusButton];
     
     //next row of buttons
-    UIButton *fourNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    fourNumber.backgroundColor = [UIColor grayColor];
+    UIButton *fourNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 3 * buttonHeight, buttonWidth, buttonHeight)];
+    fourNumber.backgroundColor = [UIColor lightGrayColor];
     fourNumber.tag = 4;
     [fourNumber setTitle:@"4"
                 forState:UIControlStateNormal];
@@ -105,8 +123,8 @@
          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:fourNumber];
     
-    UIButton *fiveNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    fiveNumber.backgroundColor = [UIColor grayColor];
+    UIButton *fiveNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
+    fiveNumber.backgroundColor = [UIColor lightGrayColor];
     fiveNumber.tag = 5;
     [fiveNumber setTitle:@"5"
                 forState:UIControlStateNormal];
@@ -115,8 +133,8 @@
          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:fiveNumber];
     
-    UIButton *sixNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    sixNumber.backgroundColor = [UIColor grayColor];
+    UIButton *sixNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
+    sixNumber.backgroundColor = [UIColor lightGrayColor];
     sixNumber.tag = 6;
     [sixNumber setTitle:@"6"
                forState:UIControlStateNormal];
@@ -135,8 +153,8 @@
     [self.view addSubview:minusButton];
     
     //next row of buttons
-    UIButton *oneNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    oneNumber.backgroundColor = [UIColor grayColor];
+    UIButton *oneNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 4 * buttonHeight, buttonWidth, buttonHeight)];
+    oneNumber.backgroundColor = [UIColor lightGrayColor];
     oneNumber.tag = 1;
     [oneNumber setTitle:@"1"
                forState:UIControlStateNormal];
@@ -145,8 +163,8 @@
         forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:oneNumber];
     
-    UIButton *twoNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    twoNumber.backgroundColor = [UIColor grayColor];
+    UIButton *twoNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
+    twoNumber.backgroundColor = [UIColor lightGrayColor];
     twoNumber.tag = 2;
     [twoNumber setTitle:@"2"
                forState:UIControlStateNormal];
@@ -155,8 +173,8 @@
         forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:twoNumber];
     
-    UIButton *threeNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    threeNumber.backgroundColor = [UIColor grayColor];
+    UIButton *threeNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
+    threeNumber.backgroundColor = [UIColor lightGrayColor];
     threeNumber.tag = 3;
     [threeNumber setTitle:@"3"
                  forState:UIControlStateNormal];
@@ -175,8 +193,8 @@
     [self.view addSubview:multiplyButton];
     
     //last row of buttons
-    UIButton *zeroNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 4 * buttonHeight, 2 * buttonWidth, buttonHeight)];
-    zeroNumber.backgroundColor = [UIColor grayColor];
+    UIButton *zeroNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 5 * buttonHeight, 2 * buttonWidth, buttonHeight)];
+    zeroNumber.backgroundColor = [UIColor lightGrayColor];
     [zeroNumber setTitle:@"0"
                 forState:UIControlStateNormal];
     [zeroNumber addTarget:self
@@ -184,7 +202,13 @@
          forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:zeroNumber];
     
-    UIButton *equalsButton = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
+    UIButton *decimalButton = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 5 * buttonHeight, buttonWidth, buttonHeight)];
+    decimalButton.backgroundColor = [UIColor lightGrayColor];
+    [decimalButton setTitle:@"."
+                   forState:UIControlStateNormal];
+    [self.view addSubview:decimalButton];
+    
+    UIButton *equalsButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 5 * buttonHeight, buttonWidth, buttonHeight)];
     equalsButton.backgroundColor = [UIColor orangeColor];
     [equalsButton setTitle:@"="
                   forState:UIControlStateNormal];
@@ -211,7 +235,6 @@
 - (void)addDigit:(id)sender
 {
     UIButton *button = (UIButton *) sender;
-    NSLog(@"Tag of button: %i", button.tag);
     [self.calculator addDigit:button.tag];
 }
 
@@ -219,24 +242,20 @@
 {
     UIButton *buttonPressed = (UIButton *)sender;
     if([buttonPressed.titleLabel.text isEqualToString:@"+"]){
-        NSLog(@"Operation set to add");
         [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationAdd];
     }
     else if([buttonPressed.titleLabel.text isEqualToString:@"-"]){
-                NSLog(@"Operation set to subtract");
         [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationSubtract];
     }
     else if([buttonPressed.titleLabel.text isEqualToString:@"x"]){
-                NSLog(@"Operation set to multiply");
         [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationMultiply];
     }
     if([buttonPressed.titleLabel.text isEqualToString:@"÷"]){
-                NSLog(@"Operation set to divide");
         [self.calculator setOperation:(DEVCalculatorOperation) DEVCalculatorOperationDivide];
     }
 }
 
-- (void)digitAdded
+- (void)digitDisplayChange
 {
     self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.activeNumber];
 }
@@ -244,11 +263,6 @@
 - (void)didCalculateWithResult
 {
     self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.inactiveNumber];
-}
-
-- (void)operandDidChange
-{
-    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f",self.calculator.activeNumber];
 }
 
 - (void)didReceiveMemoryWarning

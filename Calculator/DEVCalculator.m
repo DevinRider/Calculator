@@ -22,9 +22,8 @@
     //currently this will only work for positive numbers
     self.activeNumber = (self.activeNumber * 10) + digit;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(digitAdded)]){
-            NSLog(@"Digit added: %i", digit);
-            [self.delegate digitAdded];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
+            [self.delegate digitDisplayChange];
         }
     }
 }
@@ -35,8 +34,8 @@
     self.inactiveNumber = self.activeNumber;
     self.activeNumber = 0;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(operandDidChange)]){
-            [self.delegate operandDidChange];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
+            [self.delegate digitDisplayChange];
         }
     }
 }
