@@ -8,6 +8,12 @@
 
 #import "DEVCalculator.h"
 
+@interface DEVCalculator ()
+
+@property int numberOfDecimalPlaces;
+@property NSNumberFormatter *formatter;
+
+@end
 
 @implementation DEVCalculator
 
@@ -16,6 +22,8 @@
     self = [super init];
     self.activeNumber = 0;
     self.inactiveNumber = 0;
+    self.numberOfDecimalPlaces = 0;
+    self.formatter = [[NSNumberFormatter alloc] init];
     return self;
 }
 
@@ -24,8 +32,8 @@
     //currently this will only work for whole numbers
     self.activeNumber = (self.activeNumber * 10) + digit;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
-            [self.delegate digitDisplayChange];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange:)]){
+            [self.delegate digitDisplayChange:self.numberOfDecimalPlaces];
         }
     }
 }
@@ -34,8 +42,8 @@
 {
     self.activeNumber *= -1;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
-            [self.delegate digitDisplayChange];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange:)]){
+            [self.delegate digitDisplayChange:self.numberOfDecimalPlaces];
         }
     }
 }
@@ -44,9 +52,10 @@
 {
     self.inactiveNumber = 0;
     self.activeNumber = 0;
+    self.numberOfDecimalPlaces = 0;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
-            [self.delegate digitDisplayChange];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange:)]){
+            [self.delegate digitDisplayChange:self.numberOfDecimalPlaces];
         }
     }
 }
@@ -54,9 +63,10 @@
 - (void)makePercentage
 {
     self.activeNumber /= 100;
+    self.numberOfDecimalPlaces += 2;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
-            [self.delegate digitDisplayChange];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange:)]){
+            [self.delegate digitDisplayChange:self.numberOfDecimalPlaces];
         }
     }
 }
@@ -68,8 +78,8 @@
     self.inactiveNumber = self.activeNumber;
     self.activeNumber = 0;
     if(self.delegate){
-        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
-            [self.delegate digitDisplayChange];
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange:)]){
+            [self.delegate digitDisplayChange:self.numberOfDecimalPlaces];
         }
     }
 }

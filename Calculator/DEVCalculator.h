@@ -21,7 +21,7 @@ typedef enum DEVCalculatorOperation{
 @protocol DEVCalculatorDelegate <NSObject>
 
 @optional
-- (void)digitDisplayChange;
+- (void)digitDisplayChange:(int)digits;
 - (void)didCalculateWithResult;
 
 @end

@@ -52,7 +52,7 @@
     self.numberDisplay.textAlignment = NSTextAlignmentRight;
     self.numberDisplay.textColor = [UIColor whiteColor];
     self.numberDisplay.font = [UIFont systemFontOfSize:65];
-    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.inactiveNumber];
+    self.numberDisplay.text = [NSString stringWithFormat:@"%.0f", self.calculator.inactiveNumber];
     [self.view addSubview:self.numberDisplay];
     
     
@@ -183,7 +183,6 @@
                     forState:UIControlStateNormal];
     [self.calcButtons addObject:divisionButton];
 
-    NSLog(@"%@", self.calcButtons);
     for(UIButton* button in self.calcButtons)
     {
         //I use tags to denote what kind of button each is. A tag of "1" means it is a number button. A tag of "2" means it is an operation/equals.
@@ -211,6 +210,12 @@
             button.backgroundColor = [UIColor darkGrayColor];
             //do things that other buttons need. Probably just going to be setting the color/color change on press.
         }
+        [button addTarget:self
+                   action:@selector(changeBackgroundButtonColor:)
+         forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self
+                   action:@selector(resetBackgroundColor:)
+         forControlEvents:UIControlEventTouchDown];
         
         [[button layer] setBorderWidth:0.5f];
         
@@ -221,6 +226,37 @@
 - (void)loadView
 {
     
+}
+
+- (void)changeBackgroundButtonColor:(UIButton *)sender
+{
+    if(sender.tag == 1){
+        [sender setBackgroundColor:[UIColor lightGrayColor]];
+    }
+    else if(sender.tag == 2)
+    {
+        [sender setBackgroundColor:[UIColor orangeColor]];
+
+    }
+    else
+        [sender setBackgroundColor:[UIColor darkGrayColor]];
+
+}
+
+- (void)resetBackgroundColor:(UIButton *)sender
+{
+    if(sender.tag == 1){
+        [sender setBackgroundColor:[UIColor darkGrayColor]];
+    }
+    else if(sender.tag == 2){
+        [sender setBackgroundColor:[UIColor colorWithRed: 194.0 /255.0
+                                                   green:63.0 / 255.0
+                                                    blue:10.0 /255.0
+                                                   alpha:1.0]];
+    }
+    else{
+        [sender setBackgroundColor:[UIColor blackColor]];
+    }
 }
 
 - (void)addDigit:(id)sender
@@ -246,9 +282,9 @@
     }
 }
 
-- (void)digitDisplayChange
+- (void)digitDisplayChange:(int) digits
 {
-    self.numberDisplay.text = [NSString stringWithFormat:@"%.2f", self.calculator.activeNumber];
+    self.numberDisplay.text = [NSString stringWithFormat:@"%.*f", digits, self.calculator.activeNumber];
 }
 
 - (void)didCalculateWithResult
