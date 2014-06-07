@@ -41,6 +41,12 @@ typedef enum DEVCalculatorOperation{
 
 - (void)addDigit:(int)digit;
 
+- (void)makePercentage;
+
+- (void)changeSign;
+
+- (void)clear;
+
 - (void)setOperation:(DEVCalculatorOperation)operation;
 
 - (void)calculate;

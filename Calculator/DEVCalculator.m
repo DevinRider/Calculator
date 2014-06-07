@@ -14,12 +14,14 @@
 - (instancetype)init
 {
     self = [super init];
+    self.activeNumber = 0;
+    self.inactiveNumber = 0;
     return self;
 }
 
 - (void)addDigit:(int)digit
 {
-    //currently this will only work for positive numbers
+    //currently this will only work for whole numbers
     self.activeNumber = (self.activeNumber * 10) + digit;
     if(self.delegate){
         if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
@@ -27,6 +29,38 @@
         }
     }
 }
+
+- (void)changeSign
+{
+    self.activeNumber *= -1;
+    if(self.delegate){
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
+            [self.delegate digitDisplayChange];
+        }
+    }
+}
+
+- (void)clear
+{
+    self.inactiveNumber = 0;
+    self.activeNumber = 0;
+    if(self.delegate){
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
+            [self.delegate digitDisplayChange];
+        }
+    }
+}
+
+- (void)makePercentage
+{
+    self.activeNumber /= 100;
+    if(self.delegate){
+        if([self.delegate respondsToSelector:@selector(digitDisplayChange)]){
+            [self.delegate digitDisplayChange];
+        }
+    }
+}
+
 
 - (void)setOperation:(DEVCalculatorOperation)operation
 {

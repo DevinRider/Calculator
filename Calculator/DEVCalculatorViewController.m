@@ -8,11 +8,14 @@
 
 #import "DEVCalculatorViewController.h"
 #import "DEVCalculator.h"
+#import <QuartzCore/QuartzCore.h>
+
 
 @interface DEVCalculatorViewController () <DEVCalculatorDelegate>
 
 @property (nonatomic) DEVCalculator *calculator;
 @property UILabel *numberDisplay;
+@property NSMutableArray *calcButtons;
 
 @end
 
@@ -23,6 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.calculator = [[DEVCalculator alloc] init];
+        self.calcButtons = [[NSMutableArray alloc] init];
         self.calculator.delegate = self;
     }
     return self;
@@ -32,9 +36,6 @@
 {
     [super viewDidLoad];
 	
-    //this is ideally how I would like to set everything up. It's clean and easy to read but I am unsure where the connection between
-    //the DEVCalculator and the DEVCalculatorView is to be made
-    
     CGRect frame = [UIScreen mainScreen].bounds;
     self.view = [[UIView alloc] initWithFrame:frame];
     
@@ -56,175 +57,165 @@
     
     
     UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonHeight, buttonWidth, buttonHeight)];
-    clearButton.backgroundColor = [UIColor darkGrayColor];
+    clearButton.tag = 3;
     [clearButton setTitle:@"C"
                  forState:UIControlStateNormal];
-    [self.view addSubview:clearButton];
+    [clearButton addTarget:self.calculator
+                    action:@selector(clear)
+          forControlEvents:UIControlEventTouchUpInside];
+    [self.calcButtons addObject:clearButton];
     
     UIButton *changeSignButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
-    changeSignButton.backgroundColor = [UIColor darkGrayColor];
+    changeSignButton.tag = 3;
     [changeSignButton setTitle:@"+/-"
                  forState:UIControlStateNormal];
-    [self.view addSubview:changeSignButton];
+    [changeSignButton addTarget:self.calculator
+                         action:@selector(changeSign)
+               forControlEvents:UIControlEventTouchUpInside];
+    [self.calcButtons addObject:changeSignButton];
+
     
     UIButton *percentageButton = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, buttonHeight, buttonWidth, buttonHeight)];
-    percentageButton.backgroundColor = [UIColor darkGrayColor];
+    percentageButton.tag = 3;
     [percentageButton setTitle:@"%"
                       forState:UIControlStateNormal];
-    [self.view addSubview:percentageButton];
+    [percentageButton addTarget:self.calculator
+                         action:@selector(makePercentage)
+               forControlEvents:UIControlEventTouchUpInside];
+    [self.calcButtons addObject:percentageButton];
     
     UIButton *sevenNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    sevenNumber.backgroundColor = [UIColor lightGrayColor];
-    sevenNumber.tag = 7;
+    sevenNumber.tag = 1;
     [sevenNumber setTitle:@"7"
                  forState:UIControlStateNormal];
-    [sevenNumber addTarget:self
-                    action:@selector(addDigit:)
-          forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:sevenNumber];
+    [self.calcButtons addObject:sevenNumber];
     
     UIButton *eightNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    eightNumber.backgroundColor = [UIColor lightGrayColor];
-    eightNumber.tag = 8;
+    eightNumber.tag = 1;
     [eightNumber setTitle:@"8"
                  forState:UIControlStateNormal];
-    [eightNumber addTarget:self
-                    action:@selector(addDigit:)
-          forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:eightNumber];
+    [self.calcButtons addObject:eightNumber];
     
     UIButton *nineNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    nineNumber.backgroundColor = [UIColor lightGrayColor];
-    nineNumber.tag = 9;
+    nineNumber.tag = 1;
     [nineNumber setTitle:@"9"
                 forState:UIControlStateNormal];
-    [nineNumber addTarget:self
-                   action:@selector(addDigit:)
-         forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nineNumber];
+    [self.calcButtons addObject:nineNumber];
     
     UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth,  buttonHeight, buttonWidth, buttonHeight)];
-    plusButton.backgroundColor = [UIColor orangeColor];
+    plusButton.tag = 2;
     [plusButton setTitle:@"+"
                 forState:UIControlStateNormal];
-    [plusButton addTarget:self
-                   action:@selector(setOperand:)
-         forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:plusButton];
+    [self.calcButtons addObject:plusButton];
     
     //next row of buttons
     UIButton *fourNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    fourNumber.backgroundColor = [UIColor lightGrayColor];
-    fourNumber.tag = 4;
+    fourNumber.tag = 1;
     [fourNumber setTitle:@"4"
                 forState:UIControlStateNormal];
-    [fourNumber addTarget:self
-                   action:@selector(addDigit:)
-         forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:fourNumber];
+    [self.calcButtons addObject:fourNumber];
     
     UIButton *fiveNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    fiveNumber.backgroundColor = [UIColor lightGrayColor];
-    fiveNumber.tag = 5;
+    fiveNumber.tag = 1;
     [fiveNumber setTitle:@"5"
                 forState:UIControlStateNormal];
-    [fiveNumber addTarget:self
-                   action:@selector(addDigit:)
-         forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:fiveNumber];
+    [self.calcButtons addObject:fiveNumber];
     
     UIButton *sixNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    sixNumber.backgroundColor = [UIColor lightGrayColor];
-    sixNumber.tag = 6;
+    sixNumber.tag = 1;
     [sixNumber setTitle:@"6"
                forState:UIControlStateNormal];
-    [sixNumber addTarget:self
-                  action:@selector(addDigit:)
-        forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:sixNumber];
+    [self.calcButtons addObject:sixNumber];
     
     UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 2 * buttonHeight, buttonWidth, buttonHeight)];
-    minusButton.backgroundColor = [UIColor orangeColor];
+    minusButton.tag = 2;
     [minusButton setTitle:@"-"
                  forState:UIControlStateNormal];
-    [minusButton addTarget:self
-                    action:@selector(setOperand:)
-          forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:minusButton];
+    [self.calcButtons addObject:minusButton];
     
     //next row of buttons
     UIButton *oneNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 4 * buttonHeight, buttonWidth, buttonHeight)];
-    oneNumber.backgroundColor = [UIColor lightGrayColor];
     oneNumber.tag = 1;
     [oneNumber setTitle:@"1"
                forState:UIControlStateNormal];
-    [oneNumber addTarget:self
-                  action:@selector(addDigit:)
-        forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:oneNumber];
+    [self.calcButtons addObject:oneNumber];
     
     UIButton *twoNumber = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
-    twoNumber.backgroundColor = [UIColor lightGrayColor];
-    twoNumber.tag = 2;
+    twoNumber.tag = 1;
     [twoNumber setTitle:@"2"
                forState:UIControlStateNormal];
-    [twoNumber addTarget:self
-                  action:@selector(addDigit:)
-        forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:twoNumber];
+    [self.calcButtons addObject:twoNumber];
     
     UIButton *threeNumber = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
-    threeNumber.backgroundColor = [UIColor lightGrayColor];
-    threeNumber.tag = 3;
+    threeNumber.tag = 1;
     [threeNumber setTitle:@"3"
                  forState:UIControlStateNormal];
-    [threeNumber addTarget:self
-                    action:@selector(addDigit:)
-          forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:threeNumber];
+    [self.calcButtons addObject:threeNumber];
     
     UIButton *multiplyButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 3 * buttonHeight, buttonWidth, buttonHeight)];
-    multiplyButton.backgroundColor = [UIColor orangeColor];
+    multiplyButton.tag = 2;
     [multiplyButton setTitle:@"x"
                     forState:UIControlStateNormal];
-    [multiplyButton addTarget:self
-                       action:@selector(setOperand:)
-             forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:multiplyButton];
+    [self.calcButtons addObject:multiplyButton];
     
     //last row of buttons
     UIButton *zeroNumber = [[UIButton alloc] initWithFrame:CGRectMake(0, 5 * buttonHeight, 2 * buttonWidth, buttonHeight)];
-    zeroNumber.backgroundColor = [UIColor lightGrayColor];
+    zeroNumber.tag = 1;
     [zeroNumber setTitle:@"0"
                 forState:UIControlStateNormal];
-    [zeroNumber addTarget:self
-                   action:@selector(addDigit:)
-         forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:zeroNumber];
+    [self.calcButtons addObject:zeroNumber];
     
     UIButton *decimalButton = [[UIButton alloc] initWithFrame:CGRectMake(2 * buttonWidth, 5 * buttonHeight, buttonWidth, buttonHeight)];
-    decimalButton.backgroundColor = [UIColor lightGrayColor];
+    decimalButton.tag = 3;
     [decimalButton setTitle:@"."
                    forState:UIControlStateNormal];
-    [self.view addSubview:decimalButton];
+    [self.calcButtons addObject:decimalButton];
     
     UIButton *equalsButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 5 * buttonHeight, buttonWidth, buttonHeight)];
-    equalsButton.backgroundColor = [UIColor orangeColor];
+    equalsButton.tag = 2;
     [equalsButton setTitle:@"="
                   forState:UIControlStateNormal];
-    [equalsButton addTarget:self.calculator
-                     action:@selector(calculate)
-           forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:equalsButton];
+    [self.calcButtons addObject:equalsButton];
     
     UIButton *divisionButton = [[UIButton alloc] initWithFrame:CGRectMake(3 * buttonWidth, 4 * buttonHeight, buttonWidth, buttonHeight)];
-    divisionButton.backgroundColor = [UIColor orangeColor];
+    divisionButton.tag = 2;
     [divisionButton setTitle:@"÷"
                     forState:UIControlStateNormal];
-    [divisionButton addTarget:self
-                       action:@selector(setOperand:)
+    [self.calcButtons addObject:divisionButton];
+
+    NSLog(@"%@", self.calcButtons);
+    for(UIButton* button in self.calcButtons)
+    {
+        //I use tags to denote what kind of button each is. A tag of "1" means it is a number button. A tag of "2" means it is an operation/equals.
+        //A tag of "3" means it is another type of button.
+        if (button.tag == 1) {
+            button.backgroundColor = [UIColor lightGrayColor];
+            [button addTarget:self
+                       action:@selector(addDigit:)
              forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:divisionButton];
+        }
+        else if(button.tag == 2){
+            button.backgroundColor = [UIColor orangeColor];
+            if(![button.titleLabel.text isEqualToString:@"="]){
+               [button addTarget:self
+                            action:@selector(setOperand:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            }
+            else{
+                [button addTarget:self.calculator
+                           action:@selector(calculate)
+                 forControlEvents:UIControlEventTouchUpInside];
+            }
+        }
+        else if(button.tag == 3){
+            button.backgroundColor = [UIColor darkGrayColor];
+            //do things that other buttons need. Probably just going to be setting the color/color change on press.
+        }
+        
+        [[button layer] setBorderWidth:0.5f];
+        
+        [self.view addSubview:button];
+    }
 }
 
 - (void)loadView
@@ -235,7 +226,7 @@
 - (void)addDigit:(id)sender
 {
     UIButton *button = (UIButton *) sender;
-    [self.calculator addDigit:button.tag];
+    [self.calculator addDigit:[button.titleLabel.text integerValue]];
 }
 
 - (void)setOperand:(id)sender
